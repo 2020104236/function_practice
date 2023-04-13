@@ -1,0 +1,28 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+struct inat{
+	int a,b[5];
+	float c[3];
+};
+void all(int, float);
+void mult5(int n, int* bb, int m) {
+	for (int i = 0; i < m; i++) bb[i] = (n + 1000 * i) * 5;
+}
+void square(float n, float* cc, int m) {
+	for (int i = 0; i < m; i++) {
+		cc[i] = (n + 0.5 * i)*(n + 0.5 * i);
+	}
+}
+int main(){
+	all(1000, -0.5);
+}
+void all(int n, float m) {
+	inat data;
+	data.a = 1234;
+	mult5(n, data.b, 5);
+	square(m, data.c, 3);
+	ofstream xx("mybin.dat", ios::binary | ios::out);
+	xx.write((char*)&data, sizeof(data));
+	xx.close();
+}
