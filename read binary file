@@ -1,0 +1,19 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+int main() {
+	int cc[6];
+	float dd[3];
+	ifstream yy("mybin.dat", ios::binary | ios::in);
+	if (!yy) return 666;
+	yy.read((char*)cc, 6*sizeof(int));
+	yy.read((char*)dd, 3*sizeof(float));
+	for (int i = 0; i < 6; i++) {
+		cout << cc[i] << endl;
+	}
+	for (int i = 0; i < 3; i++) {
+		cout << dd[i] << endl;
+	}
+	yy.close();
+	return 1;
+}
