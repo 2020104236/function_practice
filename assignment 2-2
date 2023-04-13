@@ -1,0 +1,33 @@
+#include <iostream> // 읽는 wav 파일이 streo 인지 mono인지에 따라 다르게 읽음
+#include <fstream>
+using namespace std;
+int main(){
+	char header[44];
+	short data[1000];
+	ifstream xx("Beatles-LetItBe-wav_30s.wav", ios::binary | ios::in);
+	if (!xx) {
+		cout << "can't read wav\n";
+		return 666;
+	}
+	xx.read(header, sizeof(header));
+	unsigned int* samplerate = (unsigned int*)(header + 24);
+	unsigned short* NumChannels = (unsigned short*)(header + 22);
+	xx.seekg(samplerate[0] * 10);
+	xx.read((char*)data, sizeof(data));
+	xx.close();
+	float dt = 1. / *samplerate;
+	ofstream yy("data.txt");
+	if (!yy) return 667;
+	if (*NumChannels == 2) {
+		for (int i = 0; i < 500; i++) {
+			yy << i * dt << " " << data[i * 2] << " " << data[i * 2 + 1] << endl;
+		}
+	}
+	if (*NumChannels == 1) {
+		for (int i = 0; i < 1000; i++) {
+			yy << i * dt << " " << data[i] << endl;
+		}
+	}
+	yy.close();
+	return 123;
+}
